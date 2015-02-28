@@ -138,7 +138,9 @@ const NSUInteger kNumPrefetchedViews = 3;
             [newViews addObject:nextView];
         }
     }
-
+    
+    [self relayoutCards];
+    
     if (animated) {
         NSTimeInterval maxDelay = 0.3;
         NSTimeInterval delayStep = maxDelay / kNumPrefetchedViews;
@@ -395,8 +397,12 @@ const NSUInteger kNumPrefetchedViews = 3;
     if (!view) {
         return nil;
     }
+    
+
+    CGPoint snapTo = [self.delegate swipeableView:self getSnapBackPointFor:view];
+    
     UISnapBehavior *snapBehavior =
-        [[UISnapBehavior alloc] initWithItem:view snapToPoint:point];
+        [[UISnapBehavior alloc] initWithItem:view snapToPoint:snapTo];
     snapBehavior.damping = 0.75f; /* Medium oscillation */
     return snapBehavior;
 }
@@ -614,4 +620,14 @@ int signum(float n) { return (n < 0) ? -1 : (n > 0) ? +1 : 0; }
     return self.containerView.subviews.lastObject;
 }
 
+-(void) relayoutCards {
+    for(int i =0;i<self.containerView.subviews.count;i++) {
+        UIView* view = self.containerView.subviews[i];
+        if ([self.delegate respondsToSelector:@selector(swipeableView:
+                                                        willLayoutView:
+                                                        atIndexFromFront:)]) {
+            [self.delegate swipeableView:self willLayoutView:view atIndexFromFront:i];
+        }
+    }
+}
 @end
