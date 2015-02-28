@@ -81,6 +81,11 @@ const NSUInteger kNumPrefetchedViews = 3;
     self.collisionRect = [self defaultCollisionRect];
 }
 
+-(void) setWhetherOrNotRotationIsEnabled:(BOOL)value {
+    self.isRotationEnabled = value;
+}
+
+
 - (void)layoutSubviews {
     [super layoutSubviews];
 
