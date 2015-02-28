@@ -91,6 +91,11 @@ To discard all views and reload programmatically:
 [self.swipeableView loadNextSwipeableViewsIfNeeded];
 ~~~
 
+To turn off card rotation:
+~~~objective-c
+[self.swipeableView setWhetherOrNotRotationIsEnabled:false];
+~~~
+
 Requirements
 ---
 - iOS 7 or higher.
